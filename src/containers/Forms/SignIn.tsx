@@ -40,7 +40,7 @@ const SignInFormContainer = () => {
                 validateTrigger='onBlur'
                 extra={null}
             >
-                <Input placeholder='Please insert username (admin)' />
+                <Input placeholder='Please insert username (admin)' autoFocus />
             </FormItem>
             <FormItem
                 name='password'

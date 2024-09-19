@@ -9,6 +9,11 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
     const { data: userData } = useSelector((state: any) => state.user);
     const dispatch = useDispatch();
 
+    const onHandleSignOut = () => {
+        dispatch(destroyReduxUserData());
+        navigate('/');
+    };
+
     useEffect(() => {
         if (!userData) {
             navigate('/');
@@ -38,13 +43,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
                         >
                             Warranty Claims
                         </NavLink>
-                        <button
-                            className='px-4 text-red-200'
-                            onClick={() => {
-                                dispatch(destroyReduxUserData());
-                                navigate('/');
-                            }}
-                        >
+                        <button className='px-4 text-red-200' onClick={onHandleSignOut}>
                             Sign Out
                         </button>
                     </div>
