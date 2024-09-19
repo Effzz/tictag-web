@@ -1,194 +1,28 @@
 import Button from 'antd/lib/button';
 import Table from 'antd/lib/table';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { IProduct } from '../../interfaces/product';
+import { useDeleteProduct } from '../../hooks/API/product';
+import useNotify from '../../hooks/notify/useNotify';
+import { removeProduct as deleteReduxProduct } from '../../services/redux/slices/product';
 import { displayDateString } from '../../utils/func';
+import ProductFormContainer from '../Forms/Product';
 import AdminLayout from '../Layout/Admin';
+import ModalConfirmation from '../Modal/Confirmation';
+import ModalProduct from '../Modal/Product';
 
 const ProductsPageContainer = () => {
-    const data: IProduct[] = [
-        {
-            id: 1,
-            sku: 'SKU001',
-            name: 'Product 1',
-            price: 29.99,
-            description: 'Description for Product 1',
-            warrant_expired_at: '2024-12-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 2,
-            sku: 'SKU002',
-            name: 'Product 2',
-            price: 59.99,
-            description: 'Description for Product 2',
-            warrant_expired_at: '2024-11-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 3,
-            sku: 'SKU003',
-            name: 'Product 3',
-            price: 89.99,
-            description: 'Description for Product 3',
-            warrant_expired_at: '2024-10-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 4,
-            sku: 'SKU004',
-            name: 'Product 4',
-            price: 119.99,
-            description: 'Description for Product 4',
-            warrant_expired_at: '2024-09-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 5,
-            sku: 'SKU005',
-            name: 'Product 5',
-            price: 149.99,
-            description: 'Description for Product 5',
-            warrant_expired_at: '2024-08-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 6,
-            sku: 'SKU006',
-            name: 'Product 6',
-            price: 179.99,
-            description: 'Description for Product 6',
-            warrant_expired_at: '2024-07-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 7,
-            sku: 'SKU007',
-            name: 'Product 7',
-            price: 209.99,
-            description: 'Description for Product 7',
-            warrant_expired_at: '2024-06-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 8,
-            sku: 'SKU008',
-            name: 'Product 8',
-            price: 239.99,
-            description: 'Description for Product 8',
-            warrant_expired_at: '2024-05-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 9,
-            sku: 'SKU009',
-            name: 'Product 9',
-            price: 269.99,
-            description: 'Description for Product 9',
-            warrant_expired_at: '2024-04-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 10,
-            sku: 'SKU010',
-            name: 'Product 10',
-            price: 299.99,
-            description: 'Description for Product 10',
-            warrant_expired_at: '2024-03-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 11,
-            sku: 'SKU011',
-            name: 'Product 11',
-            price: 329.99,
-            description: 'Description for Product 11',
-            warrant_expired_at: '2024-02-29',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 12,
-            sku: 'SKU012',
-            name: 'Product 12',
-            price: 359.99,
-            description: 'Description for Product 12',
-            warrant_expired_at: '2024-01-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 13,
-            sku: 'SKU013',
-            name: 'Product 13',
-            price: 389.99,
-            description: 'Description for Product 13',
-            warrant_expired_at: '2023-12-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 14,
-            sku: 'SKU014',
-            name: 'Product 14',
-            price: 419.99,
-            description: 'Description for Product 14',
-            warrant_expired_at: '2023-11-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 15,
-            sku: 'SKU015',
-            name: 'Product 15',
-            price: 449.99,
-            description: 'Description for Product 15',
-            warrant_expired_at: '2023-10-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 16,
-            sku: 'SKU016',
-            name: 'Product 16',
-            price: 479.99,
-            description: 'Description for Product 16',
-            warrant_expired_at: '2023-09-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 17,
-            sku: 'SKU017',
-            name: 'Product 17',
-            price: 509.99,
-            description: 'Description for Product 17',
-            warrant_expired_at: '2023-08-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 18,
-            sku: 'SKU018',
-            name: 'Product 18',
-            price: 539.99,
-            description: 'Description for Product 18',
-            warrant_expired_at: '2023-07-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 19,
-            sku: 'SKU019',
-            name: 'Product 19',
-            price: 569.99,
-            description: 'Description for Product 19',
-            warrant_expired_at: '2023-06-30',
-            created_at: '2021-09-19T16:31:53.596Z'
-        },
-        {
-            id: 20,
-            sku: 'SKU020',
-            name: 'Product 20',
-            price: 599.99,
-            description: 'Description for Product 20',
-            warrant_expired_at: '2023-05-31',
-            created_at: '2021-09-19T16:31:53.596Z'
-        }
-    ];
-    const columns = [
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openConfirmationModal, setOpenConfirmationModal] = useState<boolean>(false);
+    const [confirmationData, setConfirmationData] = useState<any>(null);
+    const [initialFormData, setInitialFormData] = useState<any>(null);
+    const { products } = useSelector((state: any) => state.product);
+    const { mutate: deleteProduct, isLoading: isLoadingDeleteProduct } = useDeleteProduct();
+    const notify = useNotify();
+    const dispatch = useDispatch();
+
+    const columns: any = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -208,7 +42,10 @@ const ProductsPageContainer = () => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
-            render: (text: number) => `$${text.toFixed(2)}`
+            render: (text: string | number) => {
+                const priceNum: number = parseInt(`${text}`) || 0;
+                return '$ ' + priceNum.toFixed(2);
+            }
         },
         {
             title: 'Description',
@@ -227,11 +64,67 @@ const ProductsPageContainer = () => {
             render: (text: string) => {
                 return text ? displayDateString(text) : '-';
             }
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (obj: any) => {
+                return (
+                    <div className='flex gap-2'>
+                        <Button
+                            type='primary'
+                            onClick={() => {
+                                setInitialFormData(obj);
+                                setOpenModal(true);
+                            }}
+                        >
+                            Edit
+                        </Button>
+                        <Button
+                            type='text'
+                            className='bg-red-600 text-white'
+                            onClick={() => {
+                                setConfirmationData(obj);
+                                setOpenConfirmationModal(true);
+                            }}
+                        >
+                            Delete
+                        </Button>
+                    </div>
+                );
+            }
         }
     ];
-    const handleAddProduct = () => {
-        console.log('add product');
+
+    const onConfirmDelete = () => {
+        deleteProduct(confirmationData, {
+            onSuccess: () => {
+                dispatch(deleteReduxProduct(confirmationData.id));
+                notify('Successfully delete product');
+                setOpenConfirmationModal(false);
+            },
+            onError: () => {
+                notify('Failed to delete product', 'error');
+            }
+        });
     };
+
+    const handleAddProduct = () => {
+        setOpenModal(true);
+    };
+
+    useEffect(() => {
+        if (!openModal) {
+            setInitialFormData(null);
+        }
+    }, [openModal]);
+
+    useEffect(() => {
+        if (!openConfirmationModal) {
+            setConfirmationData(null);
+        }
+    }, [openConfirmationModal]);
+
     return (
         <AdminLayout>
             <div className='flex justify-between items-center mb-4'>
@@ -241,7 +134,7 @@ const ProductsPageContainer = () => {
                 </Button>
             </div>
             <Table
-                dataSource={data}
+                dataSource={products}
                 columns={columns}
                 rowKey='id'
                 pagination={{
@@ -249,6 +142,16 @@ const ProductsPageContainer = () => {
                     showSizeChanger: false,
                     showQuickJumper: true
                 }}
+            />
+            <ModalProduct open={openModal} toggle={setOpenModal} title={initialFormData ? 'Edit Product' : 'Add New Product'}>
+                <ProductFormContainer onClose={() => setOpenModal(false)} initialFormData={initialFormData} />
+            </ModalProduct>
+            <ModalConfirmation
+                title='Are you sure you want to delete selected product?'
+                open={openConfirmationModal}
+                toggle={setOpenConfirmationModal}
+                onConfirm={onConfirmDelete}
+                isLoading={isLoadingDeleteProduct}
             />
         </AdminLayout>
     );
