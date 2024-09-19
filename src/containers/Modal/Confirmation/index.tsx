@@ -9,14 +9,7 @@ interface IConfirmationModal extends IModal {
 
 const ModalConfirmation = ({ title, open, toggle, children, onConfirm, isLoading }: IConfirmationModal) => {
     return (
-        <Modal
-            open={open}
-            onCancel={() => toggle(false)}
-            title={title}
-            okButtonProps={{ className: 'bg-red-500' }}
-            onOk={onConfirm}
-            confirmLoading={isLoading}
-        >
+        <Modal open={open} onCancel={() => toggle(false)} title={title} onOk={onConfirm} confirmLoading={isLoading}>
             {children}
         </Modal>
     );

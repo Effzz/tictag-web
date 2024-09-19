@@ -128,7 +128,10 @@ const ProductsPageContainer = () => {
     return (
         <AdminLayout>
             <div className='flex justify-between items-center mb-4'>
-                <h1 className='text-3xl font-bold'>Product List</h1>
+                <div className='flex-row'>
+                    <h1 className='text-3xl font-bold'>Product List</h1>
+                    <p className='mt-1 text-gray-600'>List all products in WaveTech Electronics PTE LTD</p>
+                </div>
                 <Button type='primary' onClick={handleAddProduct} className='bg-blue-700'>
                     Add Product
                 </Button>

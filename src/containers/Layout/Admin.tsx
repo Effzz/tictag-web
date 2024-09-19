@@ -1,15 +1,17 @@
 import { ReactNode, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
+
+import { destroyData as destroyReduxUserData } from '../../services/redux/slices/user';
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const { data: userData } = useSelector((state: any) => state.user);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!userData) {
             navigate('/');
-            // force to sign in again
         }
     }, [userData]);
 
@@ -20,13 +22,31 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
                 <div className='container mx-auto px-4 lg:px-8 flex justify-between items-center'>
                     <div className='text-xl font-semibold'>WaveTech Electronics PTE LTD</div>
                     <div>
-                        <NavLink to={'/products'} className='hover:underline px-4'>
+                        <NavLink
+                            to={'/products'}
+                            className={({ isActive }) =>
+                                isActive ? 'text-yellow-300 px-3 py-2 rounded' : 'text-gray-300 px-3 py-2 rounded'
+                            }
+                        >
                             Products
                         </NavLink>
-                        <NavLink to={'/warranty-claims'} className='hover:underline px-4'>
+                        <NavLink
+                            to={'/warranty-claims'}
+                            className={({ isActive }) =>
+                                isActive ? 'text-yellow-300 px-3 py-2 rounded' : 'text-gray-300 px-3 py-2 rounded'
+                            }
+                        >
                             Warranty Claims
                         </NavLink>
-                        <button className='px-4 text-red-300'>Sign Out</button>
+                        <button
+                            className='px-4 text-red-200'
+                            onClick={() => {
+                                dispatch(destroyReduxUserData());
+                                navigate('/');
+                            }}
+                        >
+                            Sign Out
+                        </button>
                     </div>
                 </div>
             </nav>
