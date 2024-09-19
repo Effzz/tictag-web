@@ -5,6 +5,7 @@ The data is stored in local storage and will revert to the initial state when th
 
 ## Tech stack and development tools
 ```bash
+NodeJS v20.12.2
 ReactJS
 TailwindCSS
 AntD
